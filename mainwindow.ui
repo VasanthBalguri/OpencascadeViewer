@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QVBoxLayout" name="verticalLayout"/>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>800</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuExamples">
+    <property name="title">
+     <string>Examples</string>
+    </property>
+    <addaction name="separator"/>
+    <addaction name="actionBottle"/>
+    <addaction name="actionSample"/>
+    <addaction name="actionRead_Step_File"/>
+    <addaction name="actionOCAF_Example"/>
+   </widget>
+   <addaction name="menuExamples"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionBottle">
+   <property name="text">
+    <string>Bottle</string>
+   </property>
+  </action>
+  <action name="actionSample">
+   <property name="text">
+    <string> Sample</string>
+   </property>
+  </action>
+  <action name="actionRead_Step_File">
+   <property name="text">
+    <string>Read Step File</string>
+   </property>
+  </action>
+  <action name="actionOCAF_Example">
+   <property name="text">
+    <string>OCAF Example</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
