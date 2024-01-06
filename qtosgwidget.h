@@ -115,9 +115,6 @@ public slots:
     void slotCreateBottle();
     void slotSampleProject();
     void slotOCAFExample();
-    //void changedColor(QColor color);
-    //void openScene(std::string path);
-    //void saveScene(std::string path);
 
 signals:
     void orientationChanged(std::vector<double>);

@@ -1,5 +1,7 @@
 #include "qtosgwidget.h"
 #include "examples.h"
+#include "ocafdelegatemodel.h"
+#include "ocaftreedialog.h"
 
 QtOSGWidget::QtOSGWidget(qreal scaleX, qreal scaleY, QWidget* parent)
       : QOpenGLWidget(parent)
@@ -8,11 +10,9 @@ QtOSGWidget::QtOSGWidget(qreal scaleX, qreal scaleY, QWidget* parent)
         , _mViewer(new osgViewer::Viewer)
       , m_scaleX(scaleX)
       , m_scaleY(scaleY)
-      {
+{
 
-        try{
-//        osg::setNotifyLevel(osg::WARN);
-//      osg::setNotifyHandler(new OsgLogger("mylog.txt"));
+      try{
             //initialize camera
 
         osg::ref_ptr<osg::Camera> camera = new osg::Camera;
@@ -60,7 +60,7 @@ QtOSGWidget::QtOSGWidget(qreal scaleX, qreal scaleY, QWidget* parent)
             std::cout<<e.what()<<std::endl;
         }
 
-      }
+}
 
 void QtOSGWidget::setScene(osg::ref_ptr<osg::Group> root)
 {
@@ -304,12 +304,6 @@ void QtOSGWidget::setScale(qreal X, qreal Y)
 //       stateSet->addUniform(modelViewProjectionMatrix);
   }
 
-  /*void QtOSGWidget::addHud(osg::Group hud)
-  {
-      hud_camera->addChild(hud);
-      hud_camera->setGraphicsContext(_mGraphicsWindow);
-      hud_camera->setViewport(this->x(), this->y(),this->width(), this->height());
-  }*/
   void QtOSGWidget::mouseMoveEvent(QMouseEvent* event)
   {
       this->getEventQueue()->mouseMotion(event->x()*m_scaleX, event->y()*m_scaleY);
@@ -318,21 +312,6 @@ void QtOSGWidget::setScale(qreal X, qreal Y)
       osg::Vec3d eye;
       osg::Vec3d up;
       viewMatrix.getLookAt(eye,center,up);
-      /*std::vector<double> values;
-
-          values.push_back(eye.x());
-          values.push_back(eye.y());
-          values.push_back(eye.z());
-
-          values.push_back(center.x());
-          values.push_back(center.y());
-          values.push_back(center.z());
-
-          values.push_back(up.x());
-          values.push_back(up.y());
-          values.push_back(up.z());
-
-      emit orientationChanged(values);*/
   }
 
   void QtOSGWidget::mousePressEvent(QMouseEvent* event)
@@ -384,21 +363,6 @@ void QtOSGWidget::setScale(qreal X, qreal Y)
     osg::Vec3d eye;
     osg::Vec3d up;
     viewMatrix.getLookAt(eye,center,up);
-    /*std::vector<double> values;
-
-    values.push_back(eye.x());
-    values.push_back(eye.y());
-    values.push_back(eye.z());
-
-    values.push_back(center.x());
-    values.push_back(center.y());
-    values.push_back(center.z());
-
-    values.push_back(up.x());
-    values.push_back(up.y());
-    values.push_back(up.z());
-
-    emit orientationChanged(values);*/
   }
 
   bool QtOSGWidget::event(QEvent* event)
@@ -441,57 +405,10 @@ void QtOSGWidget::setScale(qreal X, qreal Y)
 
       opencascade::handle<TDocStd_Document> doc = createOCAFDoc(app);
 
-      readOCAFDoc(doc);
+      OcafDelegateModel *model = new OcafDelegateModel(doc);
+      OcafTreeDialog dialog(model,this);
+      dialog.show();
+      dialog.exec();
 
       app->Close(doc);
   }
-  /*void QtOSGWidget::changedColor(QColor color)
-  {
-      int r = 0,b = 0,g = 0,a = 255;
-     osg::Vec4 vColor;
-     color.getRgb(&r,&b,&g,&a);
-     vColor[0] = ((float)r)/255.0f;
-     vColor[1] = ((float)g)/255.0f;
-     vColor[2] = ((float)b)/255.0f;
-     vColor[3] = ((float)a)/255.0f;
-
-    _mViewer->getCamera()->setClearColor(vColor);
-  }
-
-  void QtOSGWidget::openScene(std::string path)
-  {
-      if(boost::ends_with(path,".osg"))
-      {
-        osg::ref_ptr<osg::Node> loadedModel = osgDB::readRefNodeFile(path);
-        if(loadedModel == NULL)
-          {
-             std::cout<<"failed to load model";
-             throw std::exception();
-          }
-
-          osg::ref_ptr<osg::Group> root = new osg::Group();
-          root->addChild(loadedModel);
-
-          _mViewer->setSceneData(root);
-      }else if(boost::ends_with(path,".step"))
-      {
-          osg::ref_ptr<osg::Geode> loadedModel = readStepFile(path);
-          if(loadedModel == NULL)
-          {
-             std::cout<<"failed to load model";
-             throw std::exception();
-           }
-          osg::ref_ptr<osg::Group> root = new osg::Group();
-           root->addChild(loadedModel);
-
-          _mViewer->setSceneData(root);
-      }
-
-
-  }
-
-  void QtOSGWidget::saveScene(std::string path)
-  {
-      osg::ref_ptr<osg::Node> root = _mViewer->getSceneData();
-      osgDB::writeNodeFile(*root,path);
-  }*/

@@ -1,5 +1,6 @@
 #include "examples.h"
 #include <iostream>
+#include <sstream>
 
 TopoDS_Shape readStepFile(std::string path)
 {
@@ -12,43 +13,6 @@ TopoDS_Shape readStepFile(std::string path)
         aReader.TransferRoot(n);
     }
     return aReader.OneShape();
-    // Collecting resulting entities
-    /*Standard_Integer nbs = aReader.NbShapes();
-    if (nbs == 0) {
-
-    }
-    else
-    {
-        for (Standard_Integer i=1; i<=nbs; i++) {
-            aShape = aReader.Shape(i);
-            osg::ref_ptr<osg::Geometry> geom = createGeometryFromShape(aShape,osg::Vec3f(1.0,1.0,1.0),transform);
-            osg::ref_ptr<osg::Drawable> sd = (osg::ref_ptr<osg::Drawable>)geom->asDrawable();
-
-            geode->addDrawable(sd);
-        }
-    }*/
-
-//           osg::ref_ptr<osg::Program> program = new osg::Program;
-
-//           osg::ref_ptr<osg::Shader> vertShader = new osg::Shader(osg::Shader::VERTEX);
-//           if (!vertShader->loadShaderSourceFromFile("../shaders/myShader.vert"))
-//               std::cerr << "Could not read VERTEX shader from file" << std::endl;
-//           program->addShader(vertShader);
-
-//            osg::ref_ptr<osg::Shader> geomShader = new osg::Shader(osg::Shader::GEOMETRY);
-//           if (!geomShader->loadShaderSourceFromFile("../shaders/myShader.geom"))
-//               std::cerr << "Could not read GEOM shader from file" << std::endl;
-//           program->addShader(geomShader);
-
-//           osg::ref_ptr<osg::Shader> fragShader = new osg::Shader(osg::Shader::FRAGMENT);
-//           if (!fragShader->loadShaderSourceFromFile("../shaders/myShader.frag"))
-//               std::cerr << "Could not read FRAGMENT shader from file" << std::endl;
-//           program->addShader(fragShader);
-
-//           stateSet->setAttributeAndModes(program.get(), osg::StateAttribute::ON);
-//           stateSet->setMode(GL_BLEND, osg::StateAttribute::ON);
-
-    //return geode.release();
 }
 
 //sample code to create bottle in osg, will remove it later
@@ -226,71 +190,38 @@ TopoDS_Shape make2DProfile()
 
 opencascade::handle<TDocStd_Document> createOCAFDoc(opencascade::handle<TDocStd_Application> &app)
 {
-    //opencascade::handle<TDocStd_Application> app = new TDocStd_Application;
-    //BinDrivers::DefineFormat(app);
 
     opencascade::handle<TDocStd_Document> doc;
     app->NewDocument("BinOcaf", doc);
-    //
     if ( doc.IsNull() )
     {
       std::cout << "Error: cannot create an OCAF document." << std::endl;
       return NULL;
     }
+    TDF_Label z01a = doc->Main();
+    TDF_Label z011a  = z01a.NewChild();
+    TDF_Label z0111a = z011a.NewChild();
+    TDF_Label z01111a = z0111a.NewChild();
+    TDF_Label z0112a = z011a.NewChild();
+    TDF_Label z01121a = z0112a.NewChild();
+    TDF_Label z012a = z01a.NewChild();
+    TDF_Label z0121a = z012a.NewChild();
 
-    TDF_Label partsLab  = doc->Main();
-    TDF_Label meshesLab = partsLab.FindChild(1);
 
-    TDataStd_Integer::Set(partsLab, 199);
+    TDataStd_Integer::Set(z01a, 199);
     TCollection_ExtendedString name("Test");
-    TDataStd_Name::Set(meshesLab,name);
+    TDataStd_Name::Set(z01a,name);
+
+    TDataStd_Integer::Set(z011a, 200);
+    TCollection_ExtendedString name2("Test 2");
+    TDataStd_Name::Set(z011a,name2);
 
     return doc;
-    // Create parts.
-    /*IPart part1( TDF_TagSource::NewChild(partsLab) );
-    IPart part2( TDF_TagSource::NewChild(partsLab) );
-    IPart part3( TDF_TagSource::NewChild(partsLab) );
-    //
-    part2.SetShape( BRepPrimAPI_MakeBox(10, 10, 10) );
-    part2.SetColor( 255, 0, 0 );
-
-    TColStd_PackedMapOfInteger fids1, fids2;
-    fids1.Add(1);
-    fids1.Add(2);
-    fids1.Add(3);
-    fids2.Add(3);
-    fids2.Add(4);
-    fids2.Add(5);
-
-    part3.CreateFeature(fids1);
-    part3.CreateFeature(fids2);
-
-    std::vector<IFeature> part3Features;
-    part3.GetFeatures(part3Features);
-
-    // Create meshes.
-    IMesh mesh( TDF_TagSource::NewChild(meshesLab) );
-    //
-    mesh.Create(part2);
-
-    PCDM_StoreStatus sstatus = app->SaveAs(doc, "C:/users/user/Desktop/test.cbf");
-    //
-    if ( sstatus != PCDM_SS_OK )
-    {
-      app->Close(doc);
-
-      std::cout << "Cannot write OCAF document." << std::endl;
-      return 1;
-    }*/
-
-
-    //app->Close(doc);
-
 }
 
 void readOCAFDoc(opencascade::handle<TDocStd_Document> &doc)
 {
-    TDF_Label root = doc->Main();
+    TDF_Label root = doc->GetData()->Root();
     std::cout << root.Tag() << std::endl;
     opencascade::handle<TDataStd_Integer> intRootAttr;
     if(root.FindAttribute(TDataStd_Integer::GetID(),intRootAttr))
@@ -302,9 +233,17 @@ void readOCAFDoc(opencascade::handle<TDocStd_Document> &doc)
     {
         std::cout << nameRootAttr->Get().ToExtString() << std::endl;
     }
+
     for (TDF_ChildIterator itall (root,Standard_True); itall.More(); itall.Next()) {
         TDF_Label aChild = itall.Value();
-        std::cout << aChild.Tag()<< std::endl;
+        TColStd_ListOfInteger taglist;
+        TDF_Tool::TagList(aChild,taglist);
+        std::string strTagList;
+        for(NCollection_TListIterator<int> i = taglist.begin().Iterator(); i.More(); i.Next())
+        {
+            strTagList = strTagList + ":" + std::to_string(i.Value());
+        }
+        std::cout << strTagList<< std::endl;
         opencascade::handle<TDataStd_Integer> intAttr;
         if(aChild.FindAttribute(TDataStd_Integer::GetID(),intAttr))
         {
@@ -314,8 +253,15 @@ void readOCAFDoc(opencascade::handle<TDocStd_Document> &doc)
         if(aChild.FindAttribute(TDataStd_Name::GetID(),nameAttr))
         {
             TCollection_ExtendedString str = nameAttr->Get();
-            str.Print(std::cout);
-            std::cout <<  std::endl;
+            std::stringstream stream;
+            str.Print(stream);
+            std::string s;
+            char c;
+            while(!stream.get(c).eof())
+            {
+                s = s + c;
+            }
+            std::cout << s <<std::endl;
         }
     }
 }

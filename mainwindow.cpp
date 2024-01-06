@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include <QFileDialog>
 #include <QFile>
+#include <QDirModel>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -36,10 +37,6 @@ void MainWindow::slotStepFileDialog()
     {
         fileNames = fileDialog.selectedFiles();
         emit signalLoadStep(((QString)fileNames.first()).toStdString());
-    }
-    else
-    {
-
     }
 
 }

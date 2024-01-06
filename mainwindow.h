@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 #include "qtosgwidget.h"
+#include <TDocStd_Document.hxx>
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE

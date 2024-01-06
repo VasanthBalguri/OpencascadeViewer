@@ -23,15 +23,19 @@ set(PROJECT_SOURCES
         mainwindow.h
         examples.cpp
         examples.h
-        #ocafdelegatemodel.h
-        #ocafdelegatemodel.cpp
+        ocafdelegatemodel.h
+        ocafdelegatemodel.cpp
         #labeldelegate.h
         #labeldelegate.cpp
         #ocafapp.h
         #ocafapp.cpp
+        #labelindex.h
         qtosgwidget.h
         qtosgwidget.cpp
         mainwindow.ui
+        ocaftreedialog.h
+        ocaftreedialog.cpp
+        ocaftreedialog.ui
 )
 
 add_executable(OpencascadeViewer

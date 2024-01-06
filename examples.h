@@ -101,6 +101,8 @@
 #include <TDF_ChildIterator.hxx>
 #include <TDataXtd_Triangulation.hxx>
 #include <TDF_Reference.hxx>
+#include <TDF_Tool.hxx>
+#include <NCollection_List.hxx>
 
 TopoDS_Shape MakeBottle(const Standard_Real myWidth, const Standard_Real myHeight,
                         const Standard_Real myThickness);
