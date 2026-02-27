@@ -17,6 +17,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionSample,SIGNAL(triggered(bool)),qOsg,SLOT(slotSampleProject()));
     connect(ui->actionRead_Step_File,SIGNAL(triggered(bool)),this,SLOT(slotStepFileDialog()));
     connect(ui->actionOCAF_Example,SIGNAL(triggered(bool)),qOsg,SLOT(slotOCAFExample()));
+    connect(ui->actionOCAF_Example_2,SIGNAL(triggered(bool)),qOsg,SLOT(slotOCAFExample2()));
     connect(this,SIGNAL(signalLoadStep(std::string)),qOsg,SLOT(slotLoadStepFile(std::string)));
     this->setWindowTitle(QString("Opencascade Viewer"));
     resize(1024,768);

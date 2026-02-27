@@ -115,6 +115,7 @@ public slots:
     void slotCreateBottle();
     void slotSampleProject();
     void slotOCAFExample();
+    void slotOCAFExample2();
 
 signals:
     void orientationChanged(std::vector<double>);

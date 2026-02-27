@@ -49,7 +49,7 @@ QtOSGWidget::QtOSGWidget(qreal scaleX, qreal scaleY, QWidget* parent)
         manipulator->setHomePosition(eye,center,up);
 
         osg::ref_ptr<osg::Group> root = new osg::Group;
-       // root->addChild(hud_camera);
+        root->addChild(hud_camera);
         _mViewer->setSceneData(root);
         _mViewer->setThreadingModel(osgViewer::Viewer::SingleThreaded);
 
@@ -411,4 +411,32 @@ void QtOSGWidget::setScale(qreal X, qreal Y)
       dialog.exec();
 
       app->Close(doc);
+  }
+
+void QtOSGWidget::slotOCAFExample2()
+  {
+      opencascade::handle<TDocStd_Application> app = new TDocStd_Application;
+      BinDrivers::DefineFormat(app);
+
+      opencascade::handle<TDocStd_Document> doc = createOCAFBottle(app,10.0,15.0,5.0);
+
+      OcafDelegateModel *model = new OcafDelegateModel(doc);
+      OcafTreeDialog dialog(model,this);
+      gp_Trsf transform;
+        TDF_Label mainLabel = doc->Main();
+  TDF_Label ftreeLabel = mainLabel.FindChild(1);
+  TDF_Label opLabel = ftreeLabel.FindChild(2);
+   opencascade::handle<TNaming_NamedShape> namedShape;
+   if(opLabel.FindAttribute(TNaming_NamedShape::GetID(),namedShape))
+   {
+        TopoDS_Shape shape = namedShape->Get();
+
+        addTopoDSObject(shape,osg::Vec3(1.0,1.0,1.0),transform);
+   }
+      dialog.show();
+      dialog.exec();
+
+      app->Close(doc);
+
+
   }

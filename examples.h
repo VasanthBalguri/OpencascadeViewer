@@ -95,8 +95,10 @@
 #include <TDocStd_Application.hxx>
 #include <TDocStd_Document.hxx>
 #include <TDataStd_Name.hxx>
+#include <TNaming.hxx>
 #include <TNaming_Builder.hxx>
 #include <TNaming_NamedShape.hxx>
+#include <TNaming_UsedShapes.hxx>
 #include <TDataStd_IntPackedMap.hxx>
 #include <TDF_ChildIterator.hxx>
 #include <TDataXtd_Triangulation.hxx>
@@ -111,5 +113,5 @@ TopoDS_Shape readStepFile(std::string path);
 TopoDS_Shape make2DProfile();
 opencascade::handle<TDocStd_Document> createOCAFDoc(opencascade::handle<TDocStd_Application> &app);
 void readOCAFDoc(opencascade::handle<TDocStd_Document> &doc);
-
+opencascade::handle<TDocStd_Document> createOCAFBottle(opencascade::handle<TDocStd_Application> &app,const Standard_Real myWidth, const Standard_Real myHeight,const Standard_Real myThickness);
 #endif // EXAMPLES_H

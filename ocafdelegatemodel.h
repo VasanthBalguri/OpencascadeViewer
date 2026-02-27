@@ -17,6 +17,13 @@
 #include <TDF_ChildIDIterator.hxx>
 #include <QTreeView>
 
+
+class AttributeListFactory
+{
+public:
+
+};
+
 class LabelIndex
 {
     friend class LabelIndexFactory;
@@ -32,6 +39,7 @@ public:
     int getTag() const {return tag;}
     int getIndex() const {return index;}
     int getChildCount() const {return children.size();}
+    int getAttribute(int index);
     LabelIndex* getChild(int index) const {
         if(index < children.size())
             return children[index];

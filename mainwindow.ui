@@ -34,6 +34,7 @@
     <addaction name="actionSample"/>
     <addaction name="actionRead_Step_File"/>
     <addaction name="actionOCAF_Example"/>
+    <addaction name="actionOCAF_Example_2"/>
    </widget>
    <addaction name="menuExamples"/>
   </widget>
@@ -56,6 +57,11 @@
   <action name="actionOCAF_Example">
    <property name="text">
     <string>OCAF Example</string>
+   </property>
+  </action>
+  <action name="actionOCAF_Example_2">
+   <property name="text">
+    <string>OCAF Example 2</string>
    </property>
   </action>
  </widget>
