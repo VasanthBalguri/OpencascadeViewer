@@ -1,0 +1,4 @@
+/home/vasanth/practice/OpencascadeViewer/build/CMakeFiles/OpencascadeViewer.dir
+/home/vasanth/practice/OpencascadeViewer/build/CMakeFiles/edit_cache.dir
+/home/vasanth/practice/OpencascadeViewer/build/CMakeFiles/rebuild_cache.dir
+/home/vasanth/practice/OpencascadeViewer/build/CMakeFiles/OpencascadeViewer_autogen.dir
